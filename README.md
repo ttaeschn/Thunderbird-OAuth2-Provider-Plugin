@@ -5,10 +5,10 @@ This plugin for Thunderbird adds a custom OAuth2 Provider (in addition to the de
 ## Background
 Mozilla Thunderbird has built support for OAuth2. Unfortunately the necessary configuration parameters are not directly configurable in Thunderbird and only parameters for some public OAuth2 Providers like Google or Microsoft are build into the application directly. Details see https://support.mozilla.org/en-US/questions/1530032
 
-Since Thunderbird Version 140.0.0 an API to register and unregister cutom providers is able which makes it possible to add your custom provider via API/Extension.
+Since Thunderbird Version 140.0.0 an API to register and unregister custom providers is able which makes it possible to add your custom provider via API/Extension.
 
 ## Configuration
-You need to update the values of *oauth_provider* to match your provider. If available take the values from your .well-known endpoint. E.g. https://<provider-url>/realms/<realm-name>/.well-known/openid-configuration
+You need to update the values of *oauth_provider* to match your provider. If available, take the values from your .well-known endpoint. E.g. https://<provider-url>/realms/<realm-name>/.well-known/openid-configuration
 
 
 **issuer** : name of your provider. This <em>should</em> match the hostname of the authorization endpoint, although that is not required. You can safely take issuer value from the .well-known endpoint of your provider
@@ -32,13 +32,13 @@ You need to update the values of *oauth_provider* to match your provider. If ava
 ## Building the plugin
 You can either manually zip the necessary or use web-ext build to package the addon
 ### using web-ext
-You need to install have nodejs and web-ext installed.  
-Simple run `web-ext build` or `npx web-ext build` in the base directory of this repository. 
+You need to install nodejs and have web-ext installed.  
+Simply run `web-ext build` or `npx web-ext build` in the base directory of this repository. 
 This will create the addon-on as xpi-archive in the folder web-ext-artifacts.  
 
-### manually
-simple zip the necessary files into an xpi archive. 
-E.g. `zip -r web-ext-artifacts/thunderbird_oauth_provider_extension-1.0.xpi icons/ experiments/ manifest.json`
+### Manual build
+Zip the necessary files into an xpi archive;
+`zip -r web-ext-artifacts/thunderbird_oauth_provider_extension-1.0.xpi icons/ experiments/ manifest.json`
 
 ## Installing the plugin
 To install the plugin (the xpi archive) you have to choose the "Install Add-on From File" Method mentioned in the Mozilla Support [link](https://support.mozilla.org/en-US/kb/installing-addon-thunderbird#w_a-slightly-less-ideal-case-install-from-a-downloaded-xpi-file). 
@@ -48,7 +48,7 @@ This add-on is based on original Mozilla source code testing the API OAuth2Provi
 
 Here is the link to the Mozilla Thunderbird Changeset: [Phabricator link](https://phabricator.services.mozilla.com/D250109#change-knYSrVKOhFUz)
 
-The icons of this addon where generated with the assistance of AI tools and subsequently reviewd and integrated by human contributors.”
+The icons of this addon were generated with the assistance of AI tools and subsequently reviewd and integrated by human contributors. As was some of the spelling. 
 
 
 
