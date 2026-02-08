@@ -25,14 +25,14 @@
     }
   },
   "oauth_provider": {
-    "issuer": "your provider name",
-    "clientId": "your client",
-    "clientSecret": "your secret",
-    "authorizationEndpoint": "https://<provider-url>/realms/<realm-name>/protocol/openid-connect/auth",
-    "tokenEndpoint": "https://<provider-url>/realms/<realm-name>/protocol/openid-connect/token",
+    "issuer": "to be changed - your provider name",
+    "clientId": "to be changed - your client",
+    "clientSecret": "to be changed - your secret",
+    "authorizationEndpoint": "to be changed - https://<provider-url>/realms/<realm-name>/protocol/openid-connect/auth",
+    "tokenEndpoint": "to be changed - https://<provider-url>/realms/<realm-name>/protocol/openid-connect/token",
     "redirectionEndpoint": "https://localhost",
     "usePKCE": false,
-    "hostnames": ["hostname"],
+    "hostnames": ["to be changed - hostname"],
     "scopes": "email profile"
   }
 }
