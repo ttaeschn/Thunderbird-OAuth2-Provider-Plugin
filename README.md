@@ -7,6 +7,8 @@ Mozilla Thunderbird has built support for OAuth2. Unfortunately the necessary co
 
 Since Thunderbird Version 140.0.0 an API to register and unregister custom providers is able which makes it possible to add your custom provider via API/Extension.
 
+Since Thunderbird 157 this API is built into Thunderbird as the `oauth_provider` manifest key, and its internal signature changed. Version 1.1 of this extension therefore only contains a `manifest.json` and needs Thunderbird 157 or newer. Version 1.0 (with its own experiment API) fails silently on Thunderbird 157 and Thunderbird reports that the authentication method is not supported.
+
 ## Configuration
 You need to update the values of *oauth_provider* to match your provider. If available, take the values from your .well-known endpoint. E.g. https://<provider-url>/realms/<realm-name>/.well-known/openid-configuration
 
@@ -17,6 +19,8 @@ You need to update the values of *oauth_provider* to match your provider. If ava
 
 **clientSecret**: the secret for the clienId as configured in the provider
 
+**issuerIdentifier**: take "issuer" from .well-known, e.g. "https://<provider-url>/realms/<realm-name>". Keycloak returns this value as `iss` after login (RFC 9207) and Thunderbird checks it.
+
 **authorizationEndpoint**: take "authorization_endpoint" from .well-known E.g. "https://<provider-url>/realms/<realm-name>/protocol/openid-connect/auth"
 
 **tokenEndpoint**: take "token_endpoint" from .well-known. E.g. "https://<provider-url>/realms/<realm-name>/protocol/openid-connect/token",
@@ -25,9 +29,15 @@ You need to update the values of *oauth_provider* to match your provider. If ava
 
 **usePKCE**: false -- Whether the provider and the configured client supports PKCE. *I have not tested PKCE!. So change at your own risk* 
 
+**useExternalBrowser**: false -- Thunderbird 157 logs in through the system browser by default and then redirects to `http://127.0.0.1:<random port>`. Set this to false to log in inside a Thunderbird window instead, which uses `redirectionEndpoint` exactly ("https://localhost").
+
 **hostnames**: list of hostnames that use this provider
 
 **scopes**: the scopes to request from the provider e.g. "email profile"
+
+## Keycloak notes
+- The client needs `https://localhost` as valid redirect URI.
+- Keycloak 26.7 only treats a token as active during introspection when the introspecting client is in the token's `aud` claim. If your mail server (e.g. Dovecot) introspects tokens with the same client, add an *Audience* mapper to the client's dedicated scope with *Included Client Audience* set to the client itself and *Add to access token* / *Add to token introspection* enabled. Otherwise the introspection returns `{"active": false}` and Dovecot logs `No username returned`.
 
 ## Building the plugin
 You can either manually zip the necessary or use web-ext build to package the addon
@@ -38,7 +48,7 @@ This will create the addon-on as xpi-archive in the folder web-ext-artifacts.
 
 ### Manual build
 Zip the necessary files into an xpi archive;
-`zip -r web-ext-artifacts/thunderbird_oauth_provider_extension-1.0.xpi icons/ experiments/ manifest.json`
+`zip -r web-ext-artifacts/thunderbird_oauth_provider_extension-1.1.xpi icons/ manifest.json`
 
 ## Installing the plugin
 To install the plugin (the xpi archive) you have to choose the "Install Add-on From File" Method mentioned in the Mozilla Support [link](https://support.mozilla.org/en-US/kb/installing-addon-thunderbird#w_a-slightly-less-ideal-case-install-from-a-downloaded-xpi-file). 
