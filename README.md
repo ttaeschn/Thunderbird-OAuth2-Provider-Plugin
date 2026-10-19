@@ -7,6 +7,8 @@ Mozilla Thunderbird has built support for OAuth2. Unfortunately the necessary co
 
 Since Thunderbird Version 140.0.0 an API to register and unregister custom providers is able which makes it possible to add your custom provider via API/Extension.
 
+Since Thunderbird 157 this API is built into Thunderbird as the `oauth_provider` manifest key, and its internal signature changed. Version 1.1 of this extension therefore only contains a `manifest.json` and needs Thunderbird 157 or newer. Version 1.0 (with its own experiment API) fails silently on Thunderbird 157 and Thunderbird reports that the authentication method is not supported.
+
 ## Configuration
 You need to update the values of *oauth_provider* to match your provider. If available, take the values from your .well-known endpoint. E.g. https://<provider-url>/realms/<realm-name>/.well-known/openid-configuration
 
@@ -16,6 +18,8 @@ You need to update the values of *oauth_provider* to match your provider. If ava
 **clientId** : the id of the client you registered with the provider
 
 **clientSecret**: the secret for the clienId as configured in the provider
+
+**issuerIdentifier**: take "issuer" from .well-known, e.g. "https://<provider-url>/realms/<realm-name>". Keycloak returns this value as `iss` after login (RFC 9207) and Thunderbird checks it.
 
 **authorizationEndpoint**: take "authorization_endpoint" from .well-known E.g. "https://<provider-url>/realms/<realm-name>/protocol/openid-connect/auth"
 
