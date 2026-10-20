@@ -29,15 +29,10 @@ You need to update the values of *oauth_provider* to match your provider. If ava
 
 **usePKCE**: false -- Whether the provider and the configured client supports PKCE. *I have not tested PKCE!. So change at your own risk* 
 
-**useExternalBrowser**: false -- Thunderbird 157 logs in through the system browser by default and then redirects to `http://127.0.0.1:<random port>`. Set this to false to log in inside a Thunderbird window instead, which uses `redirectionEndpoint` exactly ("https://localhost").
-
-**hostnames**: list of hostnames that use this provider
+**hostnames**: list of hostnames that use this provider, this must match SMTP/IMAP/POP server when configuring Thunderbird (you can add many as an array).
 
 **scopes**: the scopes to request from the provider e.g. "email profile"
 
-## Keycloak notes
-- The client needs `https://localhost` as valid redirect URI.
-- Keycloak 26.7 only treats a token as active during introspection when the introspecting client is in the token's `aud` claim. If your mail server (e.g. Dovecot) introspects tokens with the same client, add an *Audience* mapper to the client's dedicated scope with *Included Client Audience* set to the client itself and *Add to access token* / *Add to token introspection* enabled. Otherwise the introspection returns `{"active": false}` and Dovecot logs `No username returned`.
 
 ## Building the plugin
 You can either manually zip the necessary or use web-ext build to package the addon
@@ -48,10 +43,10 @@ This will create the addon-on as xpi-archive in the folder web-ext-artifacts.
 
 ### Manual build
 Zip the necessary files into an xpi archive;
-`zip -r web-ext-artifacts/thunderbird_oauth_provider_extension-1.1.xpi icons/ manifest.json`
+`mkdir -p web-ext-artifacts && zip -r web-ext-artifacts/thunderbird_oauth_provider_extension-1.0.xpi icons/ experiments/ manifest.json`
 
 ## Installing the plugin
-To install the plugin (the xpi archive) you have to choose the "Install Add-on From File" Method mentioned in the Mozilla Support [link](https://support.mozilla.org/en-US/kb/installing-addon-thunderbird#w_a-slightly-less-ideal-case-install-from-a-downloaded-xpi-file). 
+To install the plugin (the xpi archive) you have to choose the "Install Add-on From File" Method mentioned in the Mozilla Support [link](https://support.mozilla.org/en-US/kb/installing-addon-thunderbird#w_a-slightly-less-ideal-case-install-from-a-downloaded-xpi-file) and select the XPI/ZIP archive and allows it to have full access to Thunderbird.
 
 ## Provenance and Contributions
 This add-on is based on original Mozilla source code testing the API OAuth2Providers. Special thanks to [darktrojan](https://github.com/darktrojan) for the Mozilla implementation. 
